@@ -1,0 +1,47 @@
+"```python
+import numpy as np
+import sympy as sp
+from collections import defaultdict
+
+class DynamicPolynomialCalculator:
+    def __init__(self, polynomial_string):
+        self.variables = sp.symbols(polynomial_string)
+        self.polynomial = sp.Poly(polynomial_string)
+        self.coefficients = defaultdict(int, self.polynomial.as_coefficients_dict())
+
+    def evaluate(self, values_dict):
+        return self.polynomial.subs(values_dict)
+
+    def degree(self):
+        return self.polynomial.total_degree()
+
+    def differentiate(self, variable):
+        return sp.diff(self.polynomial, variable)
+
+    def integrate(self, variable):
+        return sp.integrate(self.polynomial, variable)
+
+    def plot(self):
+        import matplotlib.pyplot as plt
+        if len(self.variables) == 1:
+            plot_range = np.linspace(-10, 10, 1000)
+            plot_values = [self.evaluate({self.variables[0]: x}) for x in plot_range]
+            plt.plot(plot_range, plot_values)
+            plt.xlabel(str(self.variables[0]))
+            plt.ylabel(""y"")
+            plt.title(""Dynamic Polynomial Calculator"")
+            plt.grid()
+            plt.show()
+        else:
+            raise ValueError(""Only single-variable plots are supported!"")
+
+if __name__ == ""__main__"":
+    calculator = DynamicPolynomialCalculator(""x^3 - 6*x^2 + 11*x - 6"")
+    print(""Polynomial evaluation at x = 3: "", calculator.evaluate({calculator.variables[0]: 3}))
+    print(""Polynomial degree: "", calculator.degree())
+    print(""Polynomial derivative w.r.t x: "", calculator.differentiate(calculator.variables[0]))
+    print(""Polynomial integrated w.r.t x: "", calculator.integrate(calculator.variables[0]))
+    calculator.plot()
+```
+
+这个Python代码实现了一个名为DynamicPolynomialCalculator的类，可以处理任意多项式的计算，导数，积分和绘图。代码内容较为复杂并具有一定的特色"
